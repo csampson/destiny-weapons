@@ -1,0 +1,25 @@
+{
+  "name": "destiny-weapons",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "BUNGIE_API_KEY=xxxx jest '(lib)*.spec.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csampson/destiny-weapons.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/csampson/destiny-weapons/issues"
+  },
+  "homepage": "https://github.com/csampson/destiny-weapons#readme",
+  "devDependencies": {
+    "axios-mock-adapter": "^1.9.0",
+    "jest": "^21.2.1",
+    "standard": "^10.0.3"
+  },
+  "dependencies": {
+    "axios": "^0.17.1"
+  }
+}

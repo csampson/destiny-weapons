@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Destiny Armory ::search should search for armory items 1`] = `"xxxx"`;
+
+exports[`Destiny Armory ::search should search for armory items 2`] = `"https://www.bungie.net/Platform/Destiny2"`;
+
+exports[`Destiny Armory ::search should search for armory items 3`] = `"/Armory/Search/<type>/<query>"`;
+
+exports[`Destiny Manifest ::fetch should fetch the manifest for a given entity 1`] = `"xxxx"`;
+
+exports[`Destiny Manifest ::fetch should fetch the manifest for a given entity 2`] = `"https://www.bungie.net/Platform/Destiny2"`;
+
+exports[`Destiny Manifest ::fetch should fetch the manifest for a given entity 3`] = `"/Manifest/<type>/<id>"`;
