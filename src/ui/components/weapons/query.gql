@@ -1,0 +1,17 @@
+query {
+  weapons {
+      name
+    	category
+      stat_impact
+    	stat_range
+  		stat_magazine
+      stat_rounds_per_minute
+      stat_zoom
+      stat_recoil_direction
+      stat_stability
+      stat_aim_assistance
+      stat_handling
+      stat_reload_speed
+      stat_magazine
+    }
+}

@@ -18,6 +18,11 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.(gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader'
+      },
+      {
         test: /\.js?$/,
         use: 'babel-loader',
         exclude: /node_modules/

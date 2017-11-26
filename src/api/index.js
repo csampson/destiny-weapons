@@ -1,5 +1,6 @@
 'use strict'
 
+const cors = require('cors')
 const express = require('express')
 const graphqlHTTP = require('express-graphql')
 
@@ -12,6 +13,8 @@ const root = {
     return Weapon.list()
   }
 }
+
+app.use(cors())
 
 app.use('/graphql', graphqlHTTP({
   rootValue: root,
