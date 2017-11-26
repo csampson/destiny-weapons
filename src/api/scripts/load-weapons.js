@@ -27,6 +27,12 @@ function indexWeapon (key, score) {
 
 /** @todo Revise weapon data structure to support complete searchability/filtering */
 function loadWeapon (key, weapon) {
+  const stats = {}
+
+  Object.entries(weapon.stats).forEach(([name, block]) => {
+    stats[`stat_${name}`] = block.maximum
+  })
+
   return new Promise((resolve, reject) => {
     client.hmset(key, {
       name: weapon.name,
@@ -36,7 +42,7 @@ function loadWeapon (key, weapon) {
       tier: weapon.tier,
       category: weapon.category,
       damage_type: weapon.damage_type,
-      stats: JSON.stringify(weapon.stats)
+      ...stats
     }, (error, reply) => {
       if (error) {
         reject(error)
