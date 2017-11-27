@@ -9,9 +9,9 @@ const weaponsSchema = require('./schemas/weapons')
 const app = express()
 
 const root = {
-  weapons: () => {
-    return Weapon.list()
-  }
+  weapons: () => (
+    Weapon.list()
+  )
 }
 
 app.use(cors())

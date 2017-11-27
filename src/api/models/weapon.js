@@ -4,7 +4,9 @@
 
 'use strict'
 
+const memoize = require('lodash/memoize')
 const redis = require('redis')
+
 const client = redis.createClient()
 
 const Weapon = {
@@ -26,11 +28,20 @@ const Weapon = {
             reject(error)
           }
 
-          resolve(weapons)
+          resolve(
+            weapons.map(weapon => ({
+              ...weapon,
+              perks: JSON.parse(weapon.perks || []),
+              zoom_levels: JSON.parse(weapon.zoom_levels || [])
+            }))
+          )
         })
       })
     })
   }
 }
+
+// Cache results
+Weapon.list = memoize(Weapon.list)
 
 module.exports = Weapon

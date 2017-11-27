@@ -1,7 +1,8 @@
 query {
   weapons {
       name
-    	category
+    	type
+      perks
       stat_impact
     	stat_range
   		stat_magazine
@@ -13,5 +14,6 @@ query {
       stat_handling
       stat_reload_speed
       stat_magazine
+      zoom_levels
     }
 }

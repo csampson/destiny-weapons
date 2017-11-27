@@ -1,14 +1,20 @@
 const { buildSchema } = require('graphql')
 
 const schema = buildSchema(`
+  enum ZoomLevel {
+    short
+    medium
+    long
+  }
+
   type Weapon {
     name: String!
     description: String!
     tier: String!
-    category: String!
+    type: String!
     damage_type: String!
     icon: String!
-    screenshot: String!
+    perks: [String]
     stat_aim_assistance: Int
     stat_handling: Int
     stat_impact: Int
@@ -19,6 +25,7 @@ const schema = buildSchema(`
     stat_rounds_per_minute: Int
     stat_stability: Int
     stat_zoom: Int
+    zoom_levels: [ZoomLevel]
   }
 
   type Query {

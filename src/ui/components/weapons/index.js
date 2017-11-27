@@ -9,7 +9,7 @@ const Row = ({ weapon }) => (
       {weapon.name}
     </th>
 
-    <td>[frame]</td>
+    <td>{weapon.perks[0]}</td>
     <td>{weapon.stat_rounds_per_minute}</td>
     <td>{weapon.stat_impact}</td>
     <td>{weapon.stat_range}</td>

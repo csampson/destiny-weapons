@@ -11,6 +11,14 @@ const sortBy = require('lodash/sortBy')
 const client = redis.createClient()
 const weapons = require('../data/weapons')
 
+const zoomLevels = new Map()
+  .set(0, 'short')
+  .set(1, 'short')
+  .set(2, 'short')
+  .set(3, 'medium')
+  .set(4, 'medium')
+  .set(5, 'long')
+
 const operations = []
 
 function indexWeapon (key, score) {
@@ -28,20 +36,42 @@ function indexWeapon (key, score) {
 /** @todo Revise weapon data structure to support complete searchability/filtering */
 function loadWeapon (key, weapon) {
   const stats = {}
+  const perks = []
+  const weaponZoomLevels = []
 
+  // Add stat properties, e.g. `stat_range`
   Object.entries(weapon.stats).forEach(([name, block]) => {
     stats[`stat_${name}`] = block.maximum
+  })
+
+  // Add perk properties, e.g. `perk_lightweight_frame`
+  weapon.sockets.forEach(socket => {
+    if (!socket.type) {
+      return
+    }
+
+    socket.plugItems.forEach(item => {
+      perks.push(item.name)
+
+      // Grab zoom level (0-2 = short; 3-4 = medium; 5+ = long)
+      if (socket.type.name === 'scopes') {
+        const zoomValue = item.modifiers.find(m => m.stat === 'zoom').value
+        const zoomLevel = zoomLevels.get(zoomValue) || 'long'
+
+        weaponZoomLevels.push(zoomLevel)
+      }
+    })
   })
 
   return new Promise((resolve, reject) => {
     client.hmset(key, {
       name: weapon.name,
-      description: weapon.description,
       icon: weapon.icon,
-      screenshot: weapon.screenshot,
       tier: weapon.tier,
-      category: weapon.category,
+      type: weapon.category,
       damage_type: weapon.damage_type,
+      perks: JSON.stringify(perks),
+      zoom_levels: JSON.stringify([...new Set(weaponZoomLevels)]), // de-dupe via `Set`
       ...stats
     }, (error, reply) => {
       if (error) {
