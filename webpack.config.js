@@ -18,14 +18,28 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          }
+        ]
+      },
+      {
         test: /\.(gql)$/,
         exclude: /node_modules/,
-        loader: 'graphql-tag/loader'
+        use: 'graphql-tag/loader'
       },
       {
         test: /\.js?$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: 'babel-loader'
       }
     ]
   }
