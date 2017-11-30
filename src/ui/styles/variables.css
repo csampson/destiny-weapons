@@ -1,0 +1,9 @@
+:root {
+  --color-dark-background: #283640;
+  --color-dark-foreground: #FFFFFF;
+  --color-light-background: #FFFFFF;
+  --color-light-foreground: #3B4141;
+  --color-light-foreground-muted: #7F8383;
+  --color-light-divider: gainsboro;
+  --size-content: 75rem;
+}

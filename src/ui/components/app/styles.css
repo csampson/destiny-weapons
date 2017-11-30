@@ -1,8 +1,8 @@
+@import '../../styles/variables.css';
+
 .app {
-  background-color: #E2E3DD;
-  color: #3B4141;
+  color: var(--color-light-foreground);
   font-family: -apple-system, Roboto, sans-serif;
   font-size: small;
-  padding: 1rem;
   min-height: 100vh;
 }

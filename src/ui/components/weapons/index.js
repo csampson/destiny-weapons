@@ -26,7 +26,7 @@ const Row = ({ weapon }) => (
   </tr>
 )
 
-class Weapon extends React.Component {
+class Weapon extends React.PureComponent {
   render () {
     const { weapons } = this.props
 
@@ -40,7 +40,7 @@ class Weapon extends React.Component {
         <table className={styles['weapons-table']}>
           <thead>
             <tr>
-              <th className={styles['weapons-table-header']} scope='col'>Name</th>
+              <th className={styles['weapons-table-header']} scope='col'>Weapon</th>
               <th className={styles['weapons-table-header']} scope='col'>Frame</th>
               <th className={styles['weapons-table-header']} scope='col'>Rate of Fire</th>
               <th className={styles['weapons-table-header']} scope='col'>Impact</th>
@@ -48,7 +48,7 @@ class Weapon extends React.Component {
               <th className={styles['weapons-table-header']} scope='col'>Zoom</th>
               <th className={styles['weapons-table-header']} scope='col'>Recoil</th>
               <th className={styles['weapons-table-header']} scope='col'>Stability</th>
-              <th className={styles['weapons-table-header']} scope='col'>Aim Assistance</th>
+              <th className={styles['weapons-table-header']} scope='col'>Aim Assist</th>
               <th className={styles['weapons-table-header']} scope='col'>Handling</th>
               <th className={styles['weapons-table-header']} scope='col'>Reload Speed</th>
               <th className={styles['weapons-table-header']} scope='col'>Magazine</th>
