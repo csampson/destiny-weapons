@@ -27,7 +27,10 @@ const config = {
           {
             loader: 'css-loader',
             options: {
-              modules: true
+              modules: true,
+              localIdentName: process.env.NODE_ENV === 'production'
+                ? '[local]_[hash:base64:5]'
+                : '[local]'
             }
           }
         ]
