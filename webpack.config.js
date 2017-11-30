@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const VisualizerPlugin = require('webpack-visualizer-plugin')
 
 const BUILD_DIR = path.resolve(__dirname, 'dist')
 const APP_DIR = path.resolve(__dirname, 'src/ui')
@@ -43,6 +44,10 @@ const config = {
       }
     ]
   }
+}
+
+if (process.env.NODE_ENV !== 'production') {
+  config.plugins.push(new VisualizerPlugin())
 }
 
 module.exports = config
