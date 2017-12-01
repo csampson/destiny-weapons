@@ -3,17 +3,23 @@ query {
       name
     	type
       perks
-      stat_impact
-    	stat_range
-  		stat_magazine
-      stat_rounds_per_minute
-      stat_zoom
-      stat_recoil_direction
-      stat_stability
       stat_aim_assistance
+      stat_ammo_capacity
+      stat_blast_radius
+      stat_charge_time
+      stat_defense
+      stat_efficiency
       stat_handling
-      stat_reload_speed
+      stat_impact
       stat_magazine
+      stat_range
+      stat_recoil_direction
+      stat_reload_speed
+      stat_rounds_per_minute
+      stat_stability
+      stat_swing_speed
+      stat_velocity
+      stat_zoom
       zoom_levels
     }
 }

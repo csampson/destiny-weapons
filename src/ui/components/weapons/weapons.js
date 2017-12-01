@@ -6,26 +6,59 @@ import startCase from 'lodash/startCase'
 import styles from './styles.css'
 import query from './query.gql'
 
-const Row = ({ weapon }) => (
-  <tr>
-    <th className={styles['weapons-table-header']} scope='row'>
-      {weapon.name}<br />
-      <span className={styles['weapon-type']}>{startCase(weapon.type)}</span>
-    </th>
+const columns = new Map()
+  .set('firearms', [
+    { cellKey: 'stat_rounds_per_minute', header: 'Rate of Fire' },
+    { cellKey: 'stat_magazine', header: 'Magazine' },
+    { cellKey: 'stat_impact', header: 'Impact' },
+    { cellKey: 'stat_range', header: 'Range' },
+    { cellKey: 'stat_zoom', header: 'Zoom' },
+    { cellKey: 'stat_recoil_direction', header: 'Recoil' },
+    { cellKey: 'stat_stability', header: 'Stability' },
+    { cellKey: 'stat_aim_assistance', header: 'Aim Assist' },
+    { cellKey: 'stat_handling', header: 'Handling' },
+    { cellKey: 'stat_reload_speed', header: 'Reload Speed' }
+  ])
+  .set('fusion-rifles', [
+    { cellKey: 'stat_charge_time', header: 'Charge Time' },
+    { cellKey: 'stat_magazine', header: 'Magazine' },
+    { cellKey: 'stat_impact', header: 'Impact' },
+    { cellKey: 'stat_range', header: 'Range' },
+    { cellKey: 'stat_zoom', header: 'Zoom' },
+    { cellKey: 'stat_stability', header: 'Stability' },
+    { cellKey: 'stat_aim_assistance', header: 'Aim Assist' },
+    { cellKey: 'stat_handling', header: 'Handling' },
+    { cellKey: 'stat_reload_speed', header: 'Reload Speed' }
+  ])
+  .set('launchers', [
+    { cellKey: 'stat_blast_radius', header: 'Blast Radius' },
+    { cellKey: 'stat_velocity', header: 'Velocity' },
+    { cellKey: 'stat_rounds_per_minute', header: 'Rate of Fire' },
+    { cellKey: 'stat_magazine', header: 'Magazine' },
+    { cellKey: 'stat_stability', header: 'Stability' },
+    { cellKey: 'stat_aim_assistance', header: 'Aim Assist' },
+    { cellKey: 'stat_handling', header: 'Handling' },
+    { cellKey: 'stat_reload_speed', header: 'Reload Speed' }
+  ])
+  .set('swords', [
+    { cellKey: 'stat_impact', header: 'Impact' },
+    { cellKey: 'stat_defense', header: 'Defense' },
+    { cellKey: 'stat_swing_speed', header: 'Swing Speed' },
+    { cellKey: 'stat_ammo_capacity', header: 'Ammo' },
+    { cellKey: 'stat_efficiency', header: 'Efficiency' }
+  ])
 
-    <td className={styles['weapons-table-cell']}>{startCase(weapon.perks[0].replace('frame', ''))}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_rounds_per_minute}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_impact}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_range}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_zoom}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_recoil_direction}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_stability}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_aim_assistance}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_handling}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_reload_speed}</td>
-    <td className={styles['weapons-table-cell']}>{weapon.stat_magazine}</td>
-  </tr>
-)
+function getColumns (category) {
+  if (/auto_rifle|pulse_rifle|scout_rifle|hand_cannon|sidearm|shotgun|sniper_rifle/.test(category)) {
+    return columns.get('firearms')
+  } else if (/fusion_rifle|linear_fusion_rifle/.test(category)) {
+    return columns.get('fusion-rifles')
+  } else if (/grenade_launcher|rocket_launcher/.test(category)) {
+    return columns.get('launchers')
+  } else if (/sword/.test(category)) {
+    return columns.get('swords')
+  }
+}
 
 class Weapons extends React.PureComponent {
   render () {
@@ -34,8 +67,10 @@ class Weapons extends React.PureComponent {
       return null
     }
 
+    const { category } = this.props.filters
+
     const weapons = this.props.weapons.filter(weapon => (
-      weapon.type === this.props.filters.category
+      weapon.type === category
     ))
 
     return (
@@ -43,26 +78,30 @@ class Weapons extends React.PureComponent {
         <table className={styles['weapons-table']}>
           <thead>
             <tr>
-              {/** @todo Dynamic columns */}
               <th className={styles['weapons-table-header']} scope='col'>Weapon</th>
               <th className={styles['weapons-table-header']} scope='col'>Frame</th>
-              <th className={styles['weapons-table-header']} scope='col'>Rate of Fire</th>
-              <th className={styles['weapons-table-header']} scope='col'>Impact</th>
-              <th className={styles['weapons-table-header']} scope='col'>Range</th>
-              <th className={styles['weapons-table-header']} scope='col'>Zoom</th>
-              <th className={styles['weapons-table-header']} scope='col'>Recoil</th>
-              <th className={styles['weapons-table-header']} scope='col'>Stability</th>
-              <th className={styles['weapons-table-header']} scope='col'>Aim Assist</th>
-              <th className={styles['weapons-table-header']} scope='col'>Handling</th>
-              <th className={styles['weapons-table-header']} scope='col'>Reload Speed</th>
-              <th className={styles['weapons-table-header']} scope='col'>Magazine</th>
+
+              {getColumns(category).map(column => (
+                <th className={styles['weapons-table-header']} scope='col' key={column.cellKey}>{column.header}</th>
+              ))}
             </tr>
           </thead>
 
           <tbody>
             {weapons.map(weapon => (
-              /** @todo Escape `weapon.name`? */
-              <Row key={weapon.name} weapon={weapon} />
+              <tr key={weapon.name}>
+                {/** @todo Escape `weapon.name`? */}
+                <th className={styles['weapons-table-header']} scope='row'>
+                  {weapon.name}<br />
+                  <span className={styles['weapon-type']}>{startCase(weapon.type)}</span>
+                </th>
+
+                <td className={styles['weapons-table-cell']}>{startCase(weapon.perks[0].replace('frame', ''))}</td>
+
+                {getColumns(category).map(column => (
+                  <td className={styles['weapons-table-cell']} key={column.cellKey}>{weapon[column.cellKey]}</td>
+                ))}
+              </tr>
             ))}
           </tbody>
         </table>

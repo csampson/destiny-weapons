@@ -34,11 +34,13 @@
   color: var(--color-light-muted);
   text-align: right;
   text-transform: uppercase;
-  padding: 0.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   top: 0;
 }
 
 .weapons-table-header[scope='col']:first-child {
+  width: 22ch;
   padding-left: 0;
   z-index: var(--stack-level-2);
 }
