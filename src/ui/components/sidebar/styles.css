@@ -1,0 +1,39 @@
+@import '../../styles/variables.css';
+
+.filters {
+  background-color: var(--color-dark-background);
+  color: var(--color-dark-foreground);
+  width: 15rem;
+  padding: 2rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.filters-header {
+  opacity: 0.5;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.filters-list {
+  margin-top: 1rem;
+}
+
+.filters-label {
+  cursor: pointer;
+  padding: 0.375rem;
+  margin-left: -0.375rem;
+  display: inline-block;
+}
+
+.filters-label:hover,
+.filters-hidden-input:focus + .filters-label {
+  color: var(--color-dark-foreground);
+}
+
+.filters-hidden-input {
+  position: absolute;
+  left: -9999rem;
+}

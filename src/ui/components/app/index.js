@@ -4,6 +4,7 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
+import Sidebar from '../sidebar'
 import Weapons from '../weapons'
 import styles from './styles.css'
 
@@ -17,6 +18,7 @@ const client = new ApolloClient({
 const App = () => (
   <ApolloProvider client={client}>
     <main className={styles.app}>
+      <Sidebar />
       <Weapons />
     </main>
   </ApolloProvider>

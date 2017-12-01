@@ -1,7 +1,8 @@
 @import '../../styles/variables.css';
 
 .weapons {
-  padding: 1rem 0;
+  padding: 2rem;
+  margin-left: 15rem;
 }
 
 .weapons-table {
@@ -20,7 +21,7 @@
   font-weight: 500;
   text-align: left;
   position: sticky;
-  z-index: 1;
+  z-index: var(--stack-level-1);
 }
 
 .weapons-table-header:first-child {
@@ -39,7 +40,7 @@
 
 .weapons-table-header[scope='col']:first-child {
   padding-left: 0;
-  z-index: 10;
+  z-index: var(--stack-level-2);
 }
 
 .weapons-table-header[scope='col']:nth-child(-n+2) {

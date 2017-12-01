@@ -1,8 +1,10 @@
 @import '../../styles/variables.css';
+@import '../../styles/reset.css';
 
 .app {
   color: var(--color-light-foreground);
   font-family: -apple-system, Roboto, sans-serif;
-  font-size: small;
+  font-size: 0.85rem;
   min-height: 100vh;
+  display: flex;
 }
