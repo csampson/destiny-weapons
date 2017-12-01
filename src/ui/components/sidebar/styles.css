@@ -2,7 +2,7 @@
 
 .filters {
   background-color: var(--color-dark-background);
-  color: var(--color-dark-foreground);
+  color: var(--color-dark-foreground-muted);
   width: 15rem;
   padding: 2rem;
   position: fixed;
@@ -28,8 +28,14 @@
   display: inline-block;
 }
 
-.filters-label:hover,
-.filters-hidden-input:focus + .filters-label {
+.filters-label-text {
+  transition: var(--transition-color);
+  display: inline-block;
+}
+
+.filters-label-text:hover,
+.filters-hidden-input:focus + .filters-label-text,
+.filters-hidden-input:checked + .filters-label-text {
   color: var(--color-dark-foreground);
 }
 
