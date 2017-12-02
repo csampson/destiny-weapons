@@ -1,3 +1,8 @@
+/**
+ * @overview GraphQL schema for weapon records
+ * @see {@link http://graphql.org/learn/schema/}
+ */
+
 const { buildSchema } = require('graphql')
 
 const schema = buildSchema(`
