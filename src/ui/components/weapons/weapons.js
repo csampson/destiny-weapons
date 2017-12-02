@@ -53,7 +53,7 @@ const columns = new Map()
   ])
 
 function getColumns (category) {
-  if (/auto_rifle|pulse_rifle|scout_rifle|hand_cannon|sidearm|shotgun|sniper_rifle/.test(category)) {
+  if (/auto_rifle|submachine_gun|pulse_rifle|scout_rifle|hand_cannon|sidearm|shotgun|sniper_rifle/.test(category)) {
     return columns.get('firearms')
   } else if (/fusion_rifle|linear_fusion_rifle/.test(category)) {
     return columns.get('fusion-rifles')
