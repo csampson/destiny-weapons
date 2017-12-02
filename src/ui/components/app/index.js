@@ -1,3 +1,7 @@
+/**
+ * @overview Main application component that encapsulates everything
+ */
+
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'

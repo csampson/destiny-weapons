@@ -1,5 +1,5 @@
 /**
- * @overview App sidebar: weapon type filtering
+ * @overview App sidebar for weapon type filtering
  */
 
 import React from 'react'

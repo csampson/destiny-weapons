@@ -1,3 +1,7 @@
+/**
+ * @overview Table/list of weapons and their stats
+ */
+
 import React from 'react'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
