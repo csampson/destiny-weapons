@@ -1,6 +1,7 @@
 @import '../../styles/variables.css';
 
 .weapons {
+  background-color: var(--color-light-background);
   flex: 1;
   padding: 1rem 2rem;
 }
@@ -29,6 +30,7 @@
 
 .weapons-table-header[scope='col'] {
   color: var(--color-light-muted);
+  font-size: small;
   text-align: right;
   text-transform: uppercase;
   padding-top: 0.75rem;

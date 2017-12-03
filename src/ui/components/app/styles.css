@@ -4,7 +4,7 @@
 .app {
   color: var(--color-light-foreground);
   font-family: -apple-system, Roboto, sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   min-height: 100vh;
   display: flex;
 }

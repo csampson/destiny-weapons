@@ -3,7 +3,9 @@
 .filters {
   background-color: var(--color-dark-background);
   color: var(--color-dark-foreground-muted);
+  max-width: 17.5rem;
   padding: 2rem;
+  flex: 1;
 }
 
 .filters-section {
@@ -13,8 +15,10 @@
 
 .filters-header {
   opacity: 0.5;
+  font-size: small;
   font-weight: 500;
   text-transform: uppercase;
+  padding: 0.5rem;
 }
 
 .filters-expand {
@@ -31,8 +35,7 @@
 
 .filters-label {
   cursor: pointer;
-  padding: 0.375rem;
-  margin-left: -0.375rem;
+  padding: 0.5rem;
   display: inline-block;
 }
 
