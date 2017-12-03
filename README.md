@@ -2,6 +2,19 @@
 
 A web app that lists data for legendary and exotic Destiny 2 weapons.
 
+## Goals & Progress
+
+Weapon data for Destiny 2 is scattered throughout the web - it's a bit of a pain to piece together the different bits of information (location, frame, stats, etc.) from all the lists and wikis out there.
+
+I wanted to build a single app that handles **all** the following:
+
+[x] Clean, easy to digest layout   
+[x] Responsive UI (i.e. works well on large and small screens)   
+[x] Lists weapon frames (e.g "Lightweight")   
+[ ] Lets you search for weapons with specific perks (e.g. "High-caliber Rounds")   
+[ ] Lets you easily compare two or more weapons   
+[ ] Lists weapon locations/vendors
+
 ## Stack
 
 **Node.js** – The platform   
