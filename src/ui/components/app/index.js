@@ -2,6 +2,12 @@
  * @overview Main application component that encapsulates everything
  */
 
+ /**
+ * Requisite polyfill for `requestAnimationFrame`
+ * @see {@link https://reactjs.org/docs/javascript-environment-requirements.html}
+ */
+import 'raf/polyfill'
+
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
