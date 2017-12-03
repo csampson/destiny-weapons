@@ -90,19 +90,19 @@ class Weapons extends React.PureComponent {
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className={styles['weapons-table-body']}>
             {weapons.map(weapon => (
-              <tr key={weapon.name}>
+              <tr className={styles['weapons-table-row']} key={weapon.name}>
                 {/** @todo Escape `weapon.name`? */}
                 <th className={styles['weapons-table-header']} scope='row'>
                   {weapon.name}<br />
                   <span className={styles['weapon-type']}>{startCase(weapon.type)}</span>
                 </th>
 
-                <td className={styles['weapons-table-cell']}>{startCase(weapon.perks[0].replace('frame', ''))}</td>
+                <td className={styles['weapons-table-cell']} data-header='Frame'>{startCase(weapon.perks[0].replace('frame', ''))}</td>
 
                 {getColumns(category).map(column => (
-                  <td className={styles['weapons-table-cell']} key={column.cellKey}>{weapon[column.cellKey]}</td>
+                  <td className={styles['weapons-table-cell']} data-header={column.header} key={column.cellKey}>{weapon[column.cellKey]}</td>
                 ))}
               </tr>
             ))}
@@ -117,7 +117,7 @@ Weapons.propTypes = {
   filters: PropTypes.shape({
     category: PropTypes.string
   }).isRequired,
-  weapons: PropTypes.arrayOf(PropTypes.object).isRequired
+  weapons: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default Weapons

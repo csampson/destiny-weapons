@@ -6,4 +6,11 @@
   font-family: -apple-system, Roboto, sans-serif;
   font-size: 0.85rem;
   min-height: 100vh;
+  display: flex;
+}
+
+@media (max-width: 40rem) {
+  .app {
+    flex-direction: column;
+  }
 }
