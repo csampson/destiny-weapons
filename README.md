@@ -8,12 +8,12 @@ Weapon data for Destiny 2 is scattered throughout the web - it's a bit of a pain
 
 I wanted to build a single app that handles **all** the following:
 
-[x] Clean, easy to digest layout   
-[x] Responsive UI (i.e. works well on large and small screens)   
-[x] Lists weapon frames (e.g "Lightweight")   
-[ ] Lets you search for weapons with specific perks (e.g. "High-caliber Rounds")   
-[ ] Lets you easily compare two or more weapons   
-[ ] Lists weapon locations/vendors
+- [x] Clean, easy to digest layout   
+- [x] Responsive UI (i.e. works well on large and small screens)   
+- [x] Lists weapon frames (e.g "Lightweight")   
+- [ ] Lets you search for weapons with specific perks (e.g. "High-caliber Rounds")   
+- [ ] Lets you easily compare two or more weapons   
+- [ ] Lists weapon locations/vendors
 
 ## Stack
 
