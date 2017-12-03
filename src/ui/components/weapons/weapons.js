@@ -3,12 +3,10 @@
  */
 
 import React from 'react'
-import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import startCase from 'lodash/startCase'
 
 import styles from './styles.css'
-import query from './query.gql'
 
 const columns = new Map()
   .set('firearms', [
@@ -73,6 +71,7 @@ class Weapons extends React.PureComponent {
 
     const { category } = this.props.filters
 
+    /** @todo Handle this via reducer */
     const weapons = this.props.weapons.filter(weapon => (
       weapon.type === category
     ))
@@ -118,12 +117,7 @@ Weapons.propTypes = {
   filters: PropTypes.shape({
     category: PropTypes.string
   }).isRequired,
-  weapons: PropTypes.arrayOf(PropTypes.object)
+  weapons: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
-export default graphql(query, {
-  /** @todo Handle errors */
-  props: ({ data }) => ({
-    weapons: data.weapons
-  })
-})(Weapons)
+export default Weapons

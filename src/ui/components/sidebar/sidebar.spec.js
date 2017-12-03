@@ -5,8 +5,6 @@ import { mount } from 'enzyme'
 
 import Sidebar from './sidebar'
 
-import '../../../../test/enzyme-adapter'
-
 describe('Sidebar', () => {
   let component
   let props
