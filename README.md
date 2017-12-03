@@ -11,6 +11,7 @@ I wanted to build a single app that handles **all** the following:
 - [x] Clean, easy to digest layout   
 - [x] Responsive UI (i.e. works well on large and small screens)   
 - [x] Lists weapon frames (e.g "Lightweight")   
+- [ ] Sort by weapon attributes (e.g. "Impact")   
 - [ ] Lets you search for weapons with specific perks (e.g. "High-caliber Rounds")   
 - [ ] Lets you easily compare two or more weapons   
 - [ ] Lists weapon locations/vendors
