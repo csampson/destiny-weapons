@@ -1,16 +1,11 @@
 @import '../../styles/variables.css';
 
 .filters {
-  background-color: var(--color-dark-background);
-  color: var(--color-dark-foreground-muted);
-  max-width: 17.5rem;
+  color: var(--color-content-foreground-muted);
+  max-height: 100vh;
   padding: 2rem;
-  flex: 1;
-}
-
-.filters-section {
   position: sticky;
-  top: 2rem;
+  top: 0;
 }
 
 .filters-header {
@@ -35,6 +30,9 @@
 
 .filters-label {
   cursor: pointer;
+  font-size: small;
+  font-weight: 500;
+  text-transform: uppercase;
   padding: 0.5rem;
   display: inline-block;
 }
@@ -47,7 +45,7 @@
 .filters-label-text:hover,
 .filters-hidden-input:focus + .filters-label-text,
 .filters-hidden-input:checked + .filters-label-text {
-  color: var(--color-dark-foreground);
+  color: var(--color-content-foreground);
 }
 
 .filters-hidden-input {
@@ -65,10 +63,6 @@
 
   .filters-header {
     display: none;
-  }
-
-  .filters-section {
-    top: 0;
   }
 
   .filters-list {

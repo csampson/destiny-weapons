@@ -16,7 +16,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
-import Sidebar from '../sidebar'
 import Weapons from '../weapons'
 import reducers from '../../reducers'
 import styles from './styles.css'
@@ -34,7 +33,6 @@ const App = () => (
   <Provider store={store}>
     <ApolloProvider client={client}>
       <main className={styles.app}>
-        <Sidebar />
         <Weapons />
       </main>
     </ApolloProvider>

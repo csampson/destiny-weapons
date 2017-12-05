@@ -2,15 +2,16 @@
 @import '../../styles/reset.css';
 
 .app {
-  color: var(--color-light-foreground);
-  font-family: -apple-system, Roboto, sans-serif;
-  font-size: 0.875rem;
+  background-color: var(--color-page-background);
+  color: var(--color-content-foreground);
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI', sans-serif;
   min-height: 100vh;
   display: flex;
+  justify-content: center;
 }
 
-@media (max-width: 40rem) {
-  .app {
-    flex-direction: column;
-  }
+h1 {
+  font-size: xx-large;
+  font-weight: bold;
+  text-transform: uppercase;
 }

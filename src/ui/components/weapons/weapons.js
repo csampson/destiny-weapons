@@ -8,57 +8,88 @@ import startCase from 'lodash/startCase'
 
 import styles from './styles.css'
 
-const columns = new Map()
+const primaryStats = new Map()
   .set('firearms', [
-    { cellKey: 'stat_rounds_per_minute', header: 'Rate of Fire' },
-    { cellKey: 'stat_magazine', header: 'Magazine' },
-    { cellKey: 'stat_impact', header: 'Impact' },
-    { cellKey: 'stat_range', header: 'Range' },
-    { cellKey: 'stat_zoom', header: 'Zoom' },
-    { cellKey: 'stat_recoil_direction', header: 'Recoil' },
-    { cellKey: 'stat_stability', header: 'Stability' },
-    { cellKey: 'stat_aim_assistance', header: 'Aim Assist' },
-    { cellKey: 'stat_handling', header: 'Handling' },
-    { cellKey: 'stat_reload_speed', header: 'Reload Speed' }
+    { label: (weapon) => (`Impact (${weapon.damage_type})`), value: (weapon) => weapon.stat_impact },
+    { label: (weapon) => ('Magazine Size'), value: (weapon) => weapon.stat_magazine },
+    { label: (weapon) => ('Rounds Per Minute'), value: (weapon) => weapon.stat_rounds_per_minute }
   ])
   .set('fusion-rifles', [
-    { cellKey: 'stat_charge_time', header: 'Charge Time' },
-    { cellKey: 'stat_magazine', header: 'Magazine' },
-    { cellKey: 'stat_impact', header: 'Impact' },
-    { cellKey: 'stat_range', header: 'Range' },
-    { cellKey: 'stat_zoom', header: 'Zoom' },
-    { cellKey: 'stat_stability', header: 'Stability' },
-    { cellKey: 'stat_aim_assistance', header: 'Aim Assist' },
-    { cellKey: 'stat_handling', header: 'Handling' },
-    { cellKey: 'stat_reload_speed', header: 'Reload Speed' }
+    { label: (weapon) => (`Impact (${weapon.damage_type})`), value: (weapon) => weapon.stat_impact },
+    { label: (weapon) => ('Magazine Size'), value: (weapon) => weapon.stat_magazine },
+    { label: (weapon) => ('Charge Time'), value: (weapon) => weapon.stat_charge_time }
   ])
   .set('launchers', [
-    { cellKey: 'stat_blast_radius', header: 'Blast Radius' },
-    { cellKey: 'stat_velocity', header: 'Velocity' },
-    { cellKey: 'stat_rounds_per_minute', header: 'Rate of Fire' },
-    { cellKey: 'stat_magazine', header: 'Magazine' },
-    { cellKey: 'stat_stability', header: 'Stability' },
-    { cellKey: 'stat_aim_assistance', header: 'Aim Assist' },
-    { cellKey: 'stat_handling', header: 'Handling' },
-    { cellKey: 'stat_reload_speed', header: 'Reload Speed' }
+    { label: (weapon) => (`Blast Radius (${weapon.damage_type})`), value: (weapon) => weapon.stat_blast_radius },
+    { label: (weapon) => ('Magazine Size'), value: (weapon) => weapon.stat_magazine },
+    { label: (weapon) => ('Rounds Per Minute'), value: (weapon) => weapon.stat_rounds_per_minute }
   ])
   .set('swords', [
-    { cellKey: 'stat_impact', header: 'Impact' },
-    { cellKey: 'stat_defense', header: 'Defense' },
-    { cellKey: 'stat_swing_speed', header: 'Swing Speed' },
-    { cellKey: 'stat_ammo_capacity', header: 'Ammo' },
-    { cellKey: 'stat_efficiency', header: 'Efficiency' }
+    { label: (weapon) => (`Impact (${weapon.damage_type})`), value: (weapon) => weapon.stat_impact },
+    { label: (weapon) => ('Ammo'), value: (weapon) => weapon.stat_ammo_capacity },
+    { label: (weapon) => ('Swing Speed'), value: (weapon) => weapon.stat_swing_speed }
   ])
 
-function getColumns (category) {
+const secondaryStats = new Map()
+  .set('firearms', [
+    { key: 'stat_range', label: 'Range' },
+    { key: 'stat_recoil_direction', label: 'Recoil' },
+    { key: 'stat_stability', label: 'Stability' },
+    { key: 'stat_aim_assistance', label: 'Aim Assist' },
+    { key: 'stat_handling', label: 'Handling' },
+    { key: 'stat_reload_speed', label: 'Reload' }
+  ])
+  .set('fusion-rifles', [
+    { key: 'stat_range', label: 'Range' },
+    { key: 'stat_recoil_direction', label: 'Recoil' },
+    { key: 'stat_stability', label: 'Stability' },
+    { key: 'stat_aim_assistance', label: 'Aim Assist' },
+    { key: 'stat_handling', label: 'Handling' },
+    { key: 'stat_reload_speed', label: 'Reload' }
+  ])
+  .set('launchers', [
+    { key: 'stat_velocity', label: 'Velocity' },
+    { key: 'stat_stability', label: 'Stability' },
+    { key: 'stat_aim_assistance', label: 'Aim Assist' },
+    { key: 'stat_handling', label: 'Handling' },
+    { key: 'stat_reload_speed', label: 'Reload' }
+  ])
+  .set('swords', [
+    { key: 'stat_range', label: 'Range' },
+    { key: 'stat_defense', label: 'Defense' },
+    { key: 'stat_efficiency', label: 'Efficiency' }
+  ])
+
+const Bar = ({ attr, value }) => {
+  let rating
+
+  if (value >= 70) {
+    rating = 'excellent'
+  } else if (value >= 45) {
+    rating = 'average'
+  } else {
+    rating = 'poor'
+  }
+
+  return (
+    <span
+      className={styles['weapon-bar-fill']}
+      data-attr={attr}
+      data-rating={rating}
+      style={{ width: attr === 'stat_rounds_per_minute' ? `${value / 10}%` : `${value}%` }}
+    />
+  )
+}
+
+function getWeaponType (category) {
   if (/auto_rifle|submachine_gun|pulse_rifle|scout_rifle|hand_cannon|sidearm|shotgun|sniper_rifle/.test(category)) {
-    return columns.get('firearms')
+    return 'firearms'
   } else if (/fusion_rifle|linear_fusion_rifle/.test(category)) {
-    return columns.get('fusion-rifles')
+    return 'fusion-rifles'
   } else if (/grenade_launcher|rocket_launcher/.test(category)) {
-    return columns.get('launchers')
+    return 'launchers'
   } else if (/sword/.test(category)) {
-    return columns.get('swords')
+    return 'swords'
   }
 }
 
@@ -70,6 +101,7 @@ class Weapons extends React.PureComponent {
     }
 
     const { category } = this.props.filters
+    const weaponType = getWeaponType(category)
 
     /** @todo Handle this via reducer */
     const weapons = this.props.weapons.filter(weapon => (
@@ -78,36 +110,55 @@ class Weapons extends React.PureComponent {
 
     return (
       <section className={styles['weapons']}>
-        <table className={styles['weapons-table']}>
-          <thead>
-            <tr>
-              <th className={styles['weapons-table-header']} scope='col'>Weapon</th>
-              <th className={styles['weapons-table-header']} scope='col'>Frame</th>
+        <ul className={styles['weapons-list']}>
+          {weapons.map(weapon => (
+            <li className={styles['weapon-item']} key={weapon.name}>
+              <div className={styles['weapon-header']}>
+                <img className={styles['weapon-image']} src={weapon.icon} alt='' />
 
-              {getColumns(category).map(column => (
-                <th className={styles['weapons-table-header']} scope='col' key={column.cellKey}>{column.header}</th>
-              ))}
-            </tr>
-          </thead>
+                <p>
+                  <span className={styles['weapon-name']} data-tier={weapon.tier}>
+                    {weapon.name}
+                  </span>
 
-          <tbody className={styles['weapons-table-body']}>
-            {weapons.map(weapon => (
-              <tr className={styles['weapons-table-row']} key={weapon.name}>
-                {/** @todo Escape `weapon.name`? */}
-                <th className={styles['weapons-table-header']} scope='row'>
-                  {weapon.name}<br />
-                  <span className={styles['weapon-type']}>{startCase(weapon.type)}</span>
-                </th>
+                  <span className={styles['weapon-type']}>
+                    {startCase(weapon.type)}
+                  </span>
+                </p>
+              </div>
 
-                <td className={styles['weapons-table-cell']} data-header='Frame'>{startCase(weapon.perks[0].replace('frame', ''))}</td>
+              <table className={styles['weapon-secondary-stats']}>
+                <tbody className={styles['weapon-secondary-stats-body']}>
+                  {secondaryStats.get(weaponType).map((column, index) => (
+                    <tr className={styles['weapon-secondary-stats-row']} key={column.label}>
+                      <th className={styles['weapon-secondary-stats-label']} scope='row'>{column.label}</th>
+                      <td className={styles['weapon-bar']}>
+                        <Bar attr={column.key} value={weapon[column.key]} />
+                        <span className={styles['weapon-bar-value']}>{weapon[column.key]}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-                {getColumns(category).map(column => (
-                  <td className={styles['weapons-table-cell']} data-header={column.header} key={column.cellKey}>{weapon[column.cellKey]}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              <table className={styles['weapon-primary-stats']}>
+                <tbody className={styles['weapon-primary-stats-body']}>
+                  {primaryStats.get(weaponType).map(stat => (
+                    <tr className={styles['weapon-primary-stats-row']} key={stat.label}>
+                      <th className={styles['weapon-primary-stats-header']} scope='row'>
+                        {stat.label(weapon)}
+                      </th>
+
+                      <td className={styles['weapon-primary-stats-cell']}>
+                        {stat.value(weapon)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </li>
+          ))}
+        </ul>
       </section>
     )
   }

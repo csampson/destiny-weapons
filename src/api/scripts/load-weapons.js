@@ -66,6 +66,7 @@ function loadWeapon (key, weapon) {
   return new Promise((resolve, reject) => {
     client.hmset(key, {
       name: weapon.name,
+      description: weapon.description,
       icon: weapon.icon,
       tier: weapon.tier,
       type: weapon.category,

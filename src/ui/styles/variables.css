@@ -1,12 +1,9 @@
 :root {
-  --color-dark-background: #404951;
-  --color-dark-foreground: #F2F1EF;
-  --color-dark-foreground-muted: #fff;
-  --color-dark-divider: darkgray;
-  --color-light-background: #EEEEEE;
-  --color-light-foreground: #2B2B2B;
-  --color-light-foreground-muted: #7F8383;
-  --color-light-divider: gainsboro;
+  --color-page-background: #12171C;
+  --color-content-background: rgba(0,0,0,0.35);
+  --color-content-foreground: #F5F5F5;
+  --color-content-foreground-muted: rgba(245,245,245,0.35);
+  --shadow-content: 0 17px 21px -20px rgba(0,0,0,0.3);
   --size-content: 75rem;
   --stack-level-1: 1;
   --stack-level-2: 10;
