@@ -23,19 +23,25 @@ describe('Destiny', () => {
 
   describe('Armory', () => {
     describe('::search', () => {
-      it('should search for armory items', async () => {
+      beforeEach(() => {
         mock('Armory/Search/.*')
-        await Destiny.Armory.search('<type>', '<query>')
       })
+
+      it('should search for armory items', () => (
+        Destiny.Armory.search('<type>', '<query>')
+      ))
     })
   })
 
   describe('Manifest', () => {
     describe('::fetch', () => {
-      it('should fetch the manifest for a given entity', async () => {
+      beforeEach(() => {
         mock('Manifest/.*')
-        await Destiny.Manifest.fetch('<type>', '<id>')
       })
+
+      it('should fetch the manifest for a given entity', () => (
+        Destiny.Manifest.fetch('<type>', '<id>')
+      ))
     })
   })
 })
