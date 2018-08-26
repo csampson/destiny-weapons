@@ -4,12 +4,11 @@
 
 'use strict'
 
-const redis = require('redis')
 const snakeCase = require('lodash/snakeCase')
-const sortBy = require('lodash/sortBy')
-
-const client = redis.createClient()
+const Database = require('../lib/database')
 const weapons = require('../data/weapons')
+
+const db = new Database()
 
 const zoomLevels = new Map()
   .set(0, 'short')
@@ -19,90 +18,111 @@ const zoomLevels = new Map()
   .set(4, 'medium')
   .set(5, 'long')
 
-const operations = []
-
-function indexWeapon (key, score) {
-  return new Promise((resolve, reject) => {
-    client.zadd('weapon.id', score, key, (error, reply) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(reply)
-      }
-    })
-  })
+function createIndex () {
+  return db.execute('FT.CREATE', [
+    'weapons',
+    'SCHEMA',
+    'name', 'TEXT', 'SORTABLE',
+    'category', 'TEXT', 'SORTABLE',
+    'damage_type', 'TEXT', 'SORTABLE',
+    'description', 'TEXT', 'NOINDEX',
+    'icon', 'TEXT', 'NOINDEX',
+    'max_zoom', 'TEXT', 'SORTABLE',
+    'stat_aim_assistance', 'NUMERIC', 'SORTABLE',
+    'stat_ammo_capacity', 'NUMERIC', 'SORTABLE',
+    'stat_attack', 'NUMERIC', 'SORTABLE',
+    'stat_blast_radius', 'NUMERIC', 'SORTABLE',
+    'stat_charge_time', 'NUMERIC', 'SORTABLE',
+    'stat_defense', 'NUMERIC', 'SORTABLE',
+    'stat_efficiency', 'NUMERIC', 'SORTABLE',
+    'stat_handling', 'NUMERIC', 'SORTABLE',
+    'stat_impact', 'NUMERIC', 'SORTABLE',
+    'stat_magazine', 'NUMERIC', 'SORTABLE',
+    'stat_power', 'NUMERIC', 'SORTABLE',
+    'stat_range', 'NUMERIC', 'SORTABLE',
+    'stat_recoil_direction', 'NUMERIC', 'SORTABLE',
+    'stat_reload_speed', 'NUMERIC', 'SORTABLE',
+    'stat_rounds_per_minute', 'NUMERIC', 'SORTABLE',
+    'stat_stability', 'NUMERIC', 'SORTABLE',
+    'stat_swing_speed', 'NUMERIC', 'SORTABLE',
+    'stat_velocity', 'NUMERIC', 'SORTABLE',
+    'stat_zoom', 'NUMERIC', 'SORTABLE',
+    'tier', 'TEXT', 'SORTABLE',
+    'type', 'TEXT', 'SORTABLE'
+  ])
 }
 
-/** @todo Revise weapon data structure to support complete searchability/filtering */
 function loadWeapon (key, weapon) {
-  const stats = {}
-  const perks = []
-  const weaponZoomLevels = []
+  const fields = [
+    'name', weapon.name,
+    'category', weapon.category,
+    'damage_type', weapon.damage_type,
+    'description', weapon.description,
+    'icon', weapon.icon,
+    'tier', weapon.tier
+  ]
+
+  let maxZoom = null
 
   // Add stat properties, e.g. `stat_range`
   Object.entries(weapon.stats).forEach(([name, block]) => {
-    stats[`stat_${name}`] = block.maximum
+    fields.push(`stat_${name}`, block.maximum)
   })
 
-  // Add perk properties, e.g. `perk_lightweight_frame`
-  weapon.sockets.forEach(socket => {
-    if (!socket.type) {
-      return
-    }
+  const scopes = weapon.sockets.find(socket => (
+    socket.type && socket.type.name === 'scopes'
+  ))
 
-    socket.plugItems.forEach(item => {
-      perks.push(item.name)
+  if (scopes) {
+    scopes.plugItems.forEach(scope => {
+      const zoom = scope.modifiers.find(m => m.stat === 'zoom').value
 
-      // Grab zoom level (0-2 = short; 3-4 = medium; 5+ = long)
-      if (socket.type.name === 'scopes') {
-        const zoomValue = item.modifiers.find(m => m.stat === 'zoom').value
-        const zoomLevel = zoomLevels.get(zoomValue) || 'long'
-
-        weaponZoomLevels.push(zoomLevel)
+      if (!maxZoom || zoom > maxZoom) {
+        maxZoom = zoom
       }
     })
-  })
+  }
 
-  return new Promise((resolve, reject) => {
-    client.hmset(key, {
-      name: weapon.name,
-      description: weapon.description,
-      icon: weapon.icon,
-      tier: weapon.tier,
-      type: weapon.category,
-      damage_type: weapon.damage_type,
-      perks: JSON.stringify(perks),
-      zoom_levels: JSON.stringify([...new Set(weaponZoomLevels)]), // de-dupe via `Set`
-      ...stats
-    }, (error, reply) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(reply)
-      }
-    })
-  })
+  if (maxZoom !== null) {
+    fields.push('max_zoom', zoomLevels.get(maxZoom) || 'long')
+  }
+
+  /** @todo Add perks */
+  return db.execute('FT.ADD', [
+    'weapons', snakeCase(weapon.name), 1, 'FIELDS'
+  ].concat(fields))
 }
 
-console.info('Loading weapon data into Redis...')
+async function start () {
+  console.info(':: Creating indexes...')
 
-// Load each weapon record into Redis
-sortBy(weapons, 'name').forEach((weapon, index) => {
-  const key = `weapon:${snakeCase(weapon.name)}`
+  try {
+    await createIndex()
+  } catch (error) {
+    console.error('ERROR: Failed to create indexes: \n', error)
+    return Promise.reject(error)
+  }
 
-  operations.push(
-    loadWeapon(key, weapon),
-    indexWeapon(key, index)
-  )
-})
+  console.info(':: Loading weapon data...')
 
-Promise.all(operations)
+  try {
+    // Load each weapon record into Redis
+    await Promise.all(weapons.map((weapon) => {
+      const key = `weapon:${snakeCase(weapon.name)}`
+      return loadWeapon(key, weapon)
+    }))
+  } catch (error) {
+    console.error('ERROR: Failed to load weapons:', error)
+    return Promise.reject(error)
+  }
+
+  return Promise.resolve()
+}
+
+start()
   .then(() => {
-    console.info('Done.')
+    console.info(`Successfully loaded ${weapons.length} weapons into redis.`)
     process.exit(0)
-  })
-  .catch(error => {
-    console.error(`Error occurred while loading weapon data into Redis:`)
-    console.error(error)
+  }).catch(() => {
     process.exit(1)
   })

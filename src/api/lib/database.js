@@ -11,7 +11,7 @@ const SOCKET_PATH = '/var/run/redis/redis.sock'
 
 class Database {
   constructor () {
-    this.client = redis.createClient(SOCKET_PATH)
+    this.client = redis.createClient()
     return this
   }
 
