@@ -10,13 +10,14 @@ const path = require('path')
 const Destiny = require('../lib/destiny')
 const names = require('../data/weapon-names.json')
 
+const EXPORT_PATH = path.join(__dirname, '../data/weapon-hashes.json')
 const weaponHashes = {}
 
 const lookups = names.map(name => {
   return Destiny.Armory.search('DestinyInventoryItemDefinition', name)
     .then(response => {
       if (!response.Response) {
-        console.warn(`Unknown error while fetching record for weapon "${name}"`)
+        console.error(`Unknown error while fetching record for weapon "${name}"`)
         return
       }
 
@@ -34,11 +35,9 @@ const lookups = names.map(name => {
 
 Promise.all(lookups)
   .then(() => {
-    const exportPath = path.join(__dirname, '../data/weapon-hashes.json')
-
-    console.log(`Dumping to ${exportPath} ...`)
-    fs.writeFileSync(exportPath, JSON.stringify(weaponHashes))
-    console.log(`Sucessfully imported data for ${Object.keys(weaponHashes).length}/${names.length} weapons.`)
+    console.info(`Dumping to ${EXPORT_PATH} ...`)
+    fs.writeFileSync(EXPORT_PATH, JSON.stringify(weaponHashes))
+    console.info(`Sucessfully imported data for ${Object.keys(weaponHashes).length}/${names.length} weapons.`)
   })
   .catch(err => {
     console.error('Encountered an error while fetching weapon hashes:')
