@@ -4,13 +4,13 @@ const cors = require('cors')
 const express = require('express')
 const graphqlHTTP = require('express-graphql')
 
-const Weapon = require('./models/weapon')
+const Weapons = require('./models/weapons')
 const weaponsSchema = require('./schemas/weapons')
 const app = express()
 
 const root = {
   weapons: () => (
-    Weapon.list()
+    Weapons.list()
   )
 }
 

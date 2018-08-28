@@ -3,6 +3,8 @@
  * @see {@link http://graphql.org/learn/schema/}
  */
 
+'use strict'
+
 const { buildSchema } = require('graphql')
 
 const schema = buildSchema(`
@@ -13,12 +15,12 @@ const schema = buildSchema(`
   }
 
   type Weapon {
-    name: String!
-    description: String!
-    tier: String!
-    type: String!
+    category: String!
     damage_type: String!
+    description: String!
     icon: String!
+    max_zoom: ZoomLevel
+    name: String!
     perks: [String]
     stat_aim_assistance: Int
     stat_ammo_capacity: Int
@@ -37,7 +39,7 @@ const schema = buildSchema(`
     stat_swing_speed: Int
     stat_velocity: Int
     stat_zoom: Int
-    zoom_levels: [ZoomLevel]
+    tier: String!
   }
 
   type Query {

@@ -201,10 +201,10 @@ Object.entries(weaponHashes).reduce((prev, [ name, hash ]) => (
   prev.then((data) => (
     Weapons.lookup(name, hash)
   ))
- ), Promise.resolve()).then(() => {
-   const exportPath = path.join(__dirname, '../data/weapons.json')
+), Promise.resolve()).then(() => {
+  const exportPath = path.join(__dirname, '../data/weapons.bungie.json')
 
-   console.log(`Dumping to ${exportPath} ...`)
-   fs.writeFileSync(exportPath, JSON.stringify(Weapons.records))
-   console.log(`Sucessfully imported data for all ${Weapons.records.length} weapons.`)
- })
+  console.log(`Dumping to ${exportPath} ...`)
+  fs.writeFileSync(exportPath, JSON.stringify(Weapons.records))
+  console.log(`Sucessfully imported data for all ${Weapons.records.length} weapons.`)
+})
